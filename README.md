@@ -40,3 +40,22 @@ Set VITE_API_BASE in citizen app if backend not on localhost.
 - File uploads stored under `backend/uploads/` and served at `/uploads`
 - Department-based filtering enforced in the authority dashboard
 - Citizen app lets you check issue status and give feedback when solved
+
+## Issue Lifecycle
+See the full flow with Mermaid diagrams in `docs/issue-flow.md`.
+
+Quick flowchart:
+
+```mermaid
+flowchart TD
+   A[Citizen submits issue] --> B[Backend saves to MongoDB]
+   B --> C[Email confirmation sent]
+   C --> D[Authority dashboard lists filtered issues]
+   D --> E[Authority updates status]
+   E --> F[Progress email to citizen]
+   F --> G[Citizen checks status]
+   G --> H{Solved?}
+   H -- Yes --> I[Citizen gives feedback]
+   I -- Not satisfied --> J[Resubmit new issue]
+   J --> B
+```
