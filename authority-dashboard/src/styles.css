@@ -1,0 +1,207 @@
+:root {
+  --glass-bg: rgba(30, 34, 44, 0.75);
+  --glass-blur: 18px;
+  --glass-border: rgba(255,255,255,0.08);
+  --login-glow: 0 8px 32px 0 rgba(25,118,210,0.25);
+  --login-gradient: linear-gradient(135deg, #1976d2 0%, #63b3ff 100%);
+  --bg: #0f1115;
+  --bg-alt: #1b1f25;
+  --panel: #232a33;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --primary: #1976d2;
+  --primary-accent: #63b3ff;
+  --radius: 14px;
+  --border: #2f3a46;
+  --danger: #f44336;
+  --warn: #ff9800;
+  --success: #4caf50;
+  --info: #64748b;
+  --gradient: linear-gradient(135deg,#1976d2 0%,#0d47a1 70%);
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(120deg, #232a33 0%, #0f1115 100%);
+  color: var(--text);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,h2,h3 { margin: 0; font-weight: 600; }
+
+.dashboard-shell { max-width: 1250px; margin: 28px auto 80px; padding: 0 28px; }
+
+/* Glassmorphism effect for panels */
+.panel, .login-panel {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before, .login-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 15%,rgba(99,179,255,.08),transparent 60%);
+  pointer-events: none;
+}
+
+/* Login Panel Styling */
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #232a33 0%, #0f1115 100%);
+}
+.login-panel {
+  min-width: 340px;
+  max-width: 370px;
+  padding: 38px 32px 32px;
+  box-shadow: var(--login-glow);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  animation: fade .7s cubic-bezier(.4,0,.2,1);
+}
+.login-panel h2 {
+  background: var(--login-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+  letter-spacing: .5px;
+}
+.login-panel .form-group {
+  width: 100%;
+  margin-bottom: 18px;
+}
+.login-panel label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+  display: block;
+}
+.login-panel input, .login-panel select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: #181c23;
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 2px;
+  outline: none;
+  transition: border .2s, background .2s;
+}
+.login-panel input:focus, .login-panel select:focus {
+  border-color: var(--primary-accent);
+  background: #232a33;
+}
+.login-btn {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 8px;
+  border: none;
+  background: var(--login-gradient);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px 0 rgba(25,118,210,0.10);
+  transition: background .2s, box-shadow .2s;
+}
+.login-btn:hover {
+  background: linear-gradient(135deg, #63b3ff 0%, #1976d2 100%);
+  box-shadow: 0 4px 16px 0 rgba(25,118,210,0.18);
+}
+
+/* Subtle animation for dashboard */
+.fade-in {
+  animation: fade .45s cubic-bezier(.4,0,.2,1);
+}
+
+.header-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.header-title { font-size: 34px; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 800; letter-spacing: .5px; }
+
+.mode-toggle { background: var(--panel); color: var(--text); border: 1px solid var(--border); padding: 10px 16px; border-radius: 30px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: background .25s, border .25s; }
+.mode-toggle:hover { background: #26313c; }
+
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px 22px; box-shadow: 0 4px 18px -4px rgba(0,0,0,.45); position: relative; overflow: hidden; }
+.panel::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.06),transparent 60%); pointer-events:none; }
+
+.filters-grid { display: flex; flex-wrap: wrap; gap: 18px; }
+.filter-block { display:flex; flex-direction:column; gap:6px; min-width: 160px; }
+.filter-block label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--text-dim); }
+.filter-block select { background: #161b21; color: var(--text); border:1px solid var(--border); padding:9px 12px; border-radius: 8px; font-size:14px; outline:none; transition: border .2s, background .2s; }
+.filter-block select:focus { border-color: var(--primary); background:#1d242c; }
+
+.priority-summary { display:flex; justify-content:center; gap:44px; margin-top:14px; flex-wrap:wrap; }
+.priority-pill { display:flex; flex-direction:column; align-items:center; font-size:13px; font-weight:600; }
+.priority-number { font-size:24px; font-weight:700; }
+.priority-pill.danger { color: var(--danger); }
+.priority-pill.warn { color: var(--warn); }
+.priority-pill.success { color: var(--success); }
+.priority-pill.info { color: var(--primary-accent); }
+
+.issue-map-wrapper h2 { margin:0 0 14px; font-size:22px; font-weight:700; color: var(--primary-accent); }
+.legend-note { text-align:center; font-size:12px; margin-top:6px; color: var(--text-dim); }
+
+.table-wrap { margin-top:26px; overflow:auto; border-radius: var(--radius); border:1px solid var(--border); }
+.issues-table { width:100%; border-collapse: collapse; min-width: 960px; }
+.issues-table thead tr { background:#15202b; }
+.issues-table th { text-align:left; padding:12px 14px; font-size:12px; font-weight:600; letter-spacing:.5px; color: var(--text-dim); position:sticky; top:0; background:#15202b; z-index:2; }
+.issues-table td { padding:14px 14px; font-size:14px; border-top:1px solid #1e2933; vertical-align: top; }
+.issues-table tbody tr { transition: background .2s; }
+.issues-table tbody tr:hover { background:#1d2732; }
+
+.status-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px 5px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; background:#2a3440; color: var(--text-dim); }
+.status-badge.solved { background:rgba(76,175,80,.15); color: var(--success); }
+.status-badge.underwork { background:rgba(255,152,0,.15); color: var(--warn); }
+.status-badge[ data-status='not solved' ], .status-badge.not\ solved { background:rgba(244,67,54,.15); color: var(--danger); }
+.status-badge.submitted { background:rgba(99,179,255,.15); color: var(--primary-accent); }
+
+.priority-dot { width:10px; height:10px; border-radius:50%; background: var(--info); box-shadow:0 0 0 4px rgba(100,116,139,.15); }
+.priority-dot.danger { background: var(--danger); box-shadow:0 0 0 4px rgba(244,67,54,.25);} 
+.priority-dot.warn { background: var(--warn); box-shadow:0 0 0 4px rgba(255,152,0,.25);} 
+.priority-dot.success { background: var(--success); box-shadow:0 0 0 4px rgba(76,175,80,.25);} 
+
+.id-code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; letter-spacing:.5px; color: var(--primary-accent); }
+
+.action-select { background:#161b21; color:var(--text); border:1px solid var(--border); padding:6px 10px; border-radius:8px; font-size:13px; outline:none; }
+.action-select:focus { border-color: var(--primary); }
+
+.photo-thumb { max-width:70px; border-radius:10px; display:block; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+
+.fade-in { animation: fade .45s ease; }
+@keyframes fade { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:translateY(0);} }
+
+.empty { text-align:center; padding:60px 10px; font-size:15px; color: var(--text-dim); }
+
+.footer-note { margin-top:40px; text-align:center; font-size:12px; color: #475569; }
+
+@media (max-width: 900px) {
+  .issues-table { min-width: 760px; }
+  .header-title { font-size: 28px; }
+}
+@media (max-width: 600px) {
+  .filters-grid { flex-direction: column; }
+  .filter-block { width:100%; }
+  .dashboard-shell { padding: 0 18px; }
+  .header-title { font-size: 24px; }
+  .panel { padding:18px 18px 20px; }
+}

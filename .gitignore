@@ -1,0 +1,29 @@
+# Node
+node_modules/
+**/node_modules/
+logs/
+pnpm-lock.yaml
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Builds
+**/dist/
+**/build/
+.esbuild/
+
+# Env & secrets
+.env
+.env.*
+
+# Local data/uploads
+uploads/
+**/uploads/
+
+# Misc
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.local
