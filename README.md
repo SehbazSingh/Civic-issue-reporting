@@ -41,6 +41,9 @@ Set VITE_API_BASE in citizen app if backend not on localhost.
 - Department-based filtering enforced in the authority dashboard
 - Citizen app lets you check issue status and give feedback when solved
 
+### Maintenance
+- Clear all issues in MongoDB (local): `npm run db:clear`
+
 ## Issue Lifecycle
 See the full flow with Mermaid diagrams in `docs/issue-flow.md`.
 

@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/civic-issues', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/civic-issues');
 
 const issueSchema = new mongoose.Schema({
   description: String,
