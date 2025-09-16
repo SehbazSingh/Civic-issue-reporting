@@ -15,7 +15,6 @@ function Dashboard() {
   const [issues, setIssues] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [filter, setFilter] = React.useState('all');
-  // Removed categoryFilter and stateFilter per requirement
   const [updating, setUpdating] = React.useState(null);
   const [updateStatusMsg, setUpdateStatusMsg] = React.useState("");
 
