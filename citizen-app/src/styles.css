@@ -7,6 +7,15 @@ body { margin:0; font-family: 'Segoe UI', system-ui, Arial; background:linear-gr
 .logo-icon { font-size:40px; filter:drop-shadow(0 3px 8px rgba(0,0,0,.4)); }
 .app-title { font-size:30px; font-weight:800; margin:0; letter-spacing:.5px; background:linear-gradient(90deg,#8ec9ff,#d4e9ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
+/* Tabs */
+.tabs { display:flex; gap:12px; margin:16px 24px 18px; padding:10px; background:var(--panel-alt); border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); }
+.tab-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 16px; border-radius:14px; border:1px solid #2a3642; background:#12191f; color:var(--text); font-weight:800; font-size:16px; letter-spacing:.4px; cursor:pointer; transition: transform .08s ease, background .2s ease, border .2s ease; }
+.tab-btn:hover { background:#18222b; }
+.tab-btn:active { transform:translateY(1px); }
+.tab-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.tab-btn.active { background:linear-gradient(180deg,#111925,#0d141a); border-color:var(--accent); box-shadow:0 8px 22px -10px rgba(25,118,210,.6), inset 0 0 0 1px rgba(25,118,210,.35); color:#9ed0ff; }
+.tab-ico { font-size:18px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+
 .card { background:var(--panel-alt); margin:26px 28px; border-radius:28px; padding:26px 26px 30px; border:1px solid var(--border); box-shadow:var(--shadow); position:relative; }
 .card.compact { padding:22px 24px 26px; }
 .section-title { margin:0 0 16px; font-size:22px; font-weight:700; color:var(--accent-soft); text-align:center; }
@@ -79,7 +88,19 @@ textarea { resize:vertical; min-height:90px; }
   .citizen-shell { margin:0; border-radius:0; box-shadow:none; }
   .card { margin:24px 20px; border-radius:26px; }
   .issues-grid { gap:22px; }
-  .app-header { border-radius:0; }
+  .app-header { border-radius:0; padding:22px 18px 18px; }
+  .app-title { font-size:24px; }
+  .logo-icon { font-size:34px; }
+  .tabs { margin:14px 16px 16px; padding:8px; gap:10px; flex-direction:column; }
+  .tab-btn { flex:none; width:100%; font-size:17px; padding:14px 16px; border-radius:16px; }
+  .tab-ico { font-size:20px; }
+}
+
+@media (max-width:420px) {
+  .card { margin:20px 14px; }
+  .tabs { margin:12px 14px 14px; }
+  .tab-btn { font-size:17px; padding:13px 14px; }
+  .app-title { font-size:22px; }
 }
 
 /* Gallery view */
