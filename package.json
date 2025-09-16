@@ -3,6 +3,7 @@
     "db:clear": "node delete_issues.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.2",
     "leaflet": "^1.9.4",
     "mongoose": "^8.18.1",
     "react-leaflet": "^4.2.1"

@@ -1,12 +1,18 @@
-// Nodemailer setup
+// Load env variables (EMAIL_USER, EMAIL_PASS, MONGODB_URI, MAIL_FROM, CORS_ORIGINS)
+require('dotenv').config();
+
+// Nodemailer setup (only if creds provided)
 const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'singhsehbaz7@gmail.com', // Replace with your email
-    pass: 'qrus ehke kpcf ntfh' // Replace with your app password
-  }
-});
+let transporter = null;
+if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+}
 
 
 const express = require('express');
@@ -16,11 +22,28 @@ const mongoose = require('mongoose');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
-app.use(cors());
+// CORS allowlist (comma-separated in CORS_ORIGINS) or allow all in dev
+const allowlist = (process.env.CORS_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
+const corsOptions = allowlist.length
+  ? {
+      origin: function (origin, callback) {
+        // allow local tools without origin
+        if (!origin) return callback(null, true);
+        if (allowlist.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+    }
+  : {};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/civic-issues');
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/civic-issues';
+mongoose.connect(MONGODB_URI);
 
 const issueSchema = new mongoose.Schema({
   description: String,
@@ -49,20 +72,19 @@ app.post('/api/report', upload.single('photo'), async (req, res) => {
   try {
     const issue = await Issue.create({ description, location, category, department, email, state, city, country, photoUrl });
 
-    // Send confirmation email to citizen with issue ID
-    if (email) {
+    // Send confirmation email if configured
+    if (email && transporter) {
+      const fromAddr = process.env.MAIL_FROM || process.env.EMAIL_USER;
       const mailOptions = {
-        from: 'sehbazsingh58@gmail.com',
+        from: fromAddr,
         to: email,
         subject: 'Issue Submitted Successfully',
-        text: `Thank you for reporting your issue. Your issue has been submitted successfully.\n\nYour Issue ID: ${issue._id}\n\nYou can use this ID to track the status of your issue.\n\nRegards,\nCivic Issue Reporting Team`
+        text: `Thank you for reporting your issue. Your issue has been submitted successfully.\n\nYour Issue ID: ${issue._id}\n\nYou can use this ID to track the status of your issue.\n\nRegards,\nCivic Issue Reporting Team`,
       };
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending confirmation email:', error);
-        } else {
-          console.log('Confirmation email sent:', info.response);
-        }
+      transporter.sendMail(mailOptions).then(info => {
+        console.log('Confirmation email sent:', info.response);
+      }).catch(error => {
+        console.error('Error sending confirmation email:', error);
       });
     }
 
@@ -94,20 +116,19 @@ app.patch('/api/issues/:id', express.json(), async (req, res) => {
     issue.updatedAt = new Date();
     await issue.save();
 
-    // Send progress email if email exists
-    if (issue.email) {
+    // Send progress email if configured
+    if (issue.email && transporter) {
+      const fromAddr = process.env.MAIL_FROM || process.env.EMAIL_USER;
       const mailOptions = {
-        from: 'your-email@gmail.com', // Replace with your email
+        from: fromAddr,
         to: issue.email,
         subject: 'Civic Issue Progress Update',
-        text: `Hello,\n\nYour issue (ID: ${issue._id}) status has been updated to: ${issue.status}.\n\nDescription: ${issue.description}\nLocation: ${issue.location}\nCategory: ${issue.category}\n\nThank you for helping improve your community!`
+        text: `Hello,\n\nYour issue (ID: ${issue._id}) status has been updated to: ${issue.status}.\n\nDescription: ${issue.description}\nLocation: ${issue.location}\nCategory: ${issue.category}\n\nThank you for helping improve your community!`,
       };
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending email:', error);
-        } else {
-          console.log('Progress email sent:', info.response);
-        }
+      transporter.sendMail(mailOptions).then(info => {
+        console.log('Progress email sent:', info.response);
+      }).catch(error => {
+        console.error('Error sending email:', error);
       });
     }
 
