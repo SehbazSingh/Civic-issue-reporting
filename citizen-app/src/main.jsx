@@ -252,7 +252,7 @@ function App() {
     <div>
       <header className="app-header">
         <div className="logo-icon" aria-hidden>🛠️</div>
-        <h1 className="app-title">Civic Issue Tracker</h1>
+        <h1 className="app-title">Jan Samasya</h1>
       </header>
 
       {/* Tabs */}
